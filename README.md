@@ -1,3 +1,3 @@
 # spring-cloud-study
 Spring cloud study
-Spring config test
++ Spring config test
