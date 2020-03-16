@@ -2,14 +2,20 @@ package com.tinx.cloud.license.controller;
 
 import com.tinx.cloud.license.model.License;
 import com.tinx.cloud.license.service.LicenseService;
+import com.tinx.cloud.license.utils.UserContextHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/organizations/{organizationId}/license")
+@RequestMapping("/v1/organizations/{organizationId}/license")
 public class LicenseController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(LicenseController.class);
 
     @Autowired
     private LicenseService licenseService;
@@ -20,8 +26,19 @@ public class LicenseController {
     }
 
     @RequestMapping(value = "/{licenseId}", method = RequestMethod.GET)
-    public License getLicense(@PathVariable String organizationId, @PathVariable String licenseId) {
-        return licenseService.getLicense(licenseId, organizationId);
+    public License getLicense(HttpServletRequest request, @PathVariable String organizationId, @PathVariable String licenseId) {
+        LOG.info("LicenseController header: {}", request.getHeader("tmx-correlation-id"));
+        LOG.info("LicenseController Correlation id: {}",
+                UserContextHolder.getContext().getCorrelationId());
+        return licenseService.getLicenseByOrgId(licenseId, organizationId);
+    }
+
+    @RequestMapping(value = "/{licenseId}/{clientType}", method = RequestMethod.GET)
+    public License getLicense(@PathVariable String organizationId,
+                              @PathVariable String licenseId, @PathVariable String clientType) {
+        LOG.info("LicenseController getLicense() thread: {}",
+                Thread.currentThread().getName());
+        return licenseService.getLicense(licenseId, organizationId, clientType);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)

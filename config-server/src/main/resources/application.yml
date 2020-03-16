@@ -7,5 +7,5 @@ spring:
     config:
       server:
         native:
-          search-locations: classpath:config/licensingservice/
+          search-locations: classpath:config/licensingservice/,classpath:config/organizationservice/,classpath:config/orgservice-new/,classpath:config/specialrouteservice/
 

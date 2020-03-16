@@ -1,0 +1,26 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: organizationservice
+  profiles:
+    active: default
+  cloud:
+    config:
+      enabled: true
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://tinx:admin@localhost:8761/eureka/
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:8901/auth/user
+logging:
+  level:
+    org.springframework.security.oauth2: debug
+    org.springframework.security.oauth2.provider.endpoint: debug

@@ -1,0 +1,15 @@
+server:
+  port: 8763
+spring:
+  application:
+    name: eureka-security-server
+  security:
+    user:
+      name: tinx
+      password: admin
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://tinx:admin@locahost:8761/eureka/,http://tinx:admin@localhost:8762/eureka/
